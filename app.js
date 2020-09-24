@@ -2,6 +2,10 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
+const bodyParser = require('body-parser')
+
+const generateCode = require('./generate_code')
+const Url = require('./models/url')
 
 const app = express()
 const PORT = 3000
@@ -20,9 +24,28 @@ db.once('open', () => {
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
+// setting body-parser
+app.use(bodyParser.urlencoded({ extended: true }))
+
 // Set route
 app.get('/', (req, res) => {
   res.render('index')
+})
+
+app.post('/shorten', (req, res) => {
+  const { url } = req.body
+  let code = generateCode()
+  // while (Url.find({ code })) {
+  //   code = generateCode()
+  // }
+  Url.create({ origin: url, code })
+    .then(() => res.redirect(`/success?code=${code}`))
+    .catch(error => console.log(error))
+})
+
+app.get('/success', (req, res) => {
+  const { code } = req.query
+  res.render('success', { code })
 })
 
 // Listen to server
