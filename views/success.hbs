@@ -12,9 +12,12 @@
           <div class="d-flex flex-column justify-content-center align-items-center">
             <h4 class="text-light">Success! Please use this link:</h4>
             <h3>
-              <a href="http://localhost:3000/{{code}}" target="_blank">http://localhost:3000/{{code}}</a>
+              <a id="link" href="http://localhost:3000/{{code}}" target="_blank">http://localhost:3000/{{code}}</a>
             </h3>
-            <button id="copy" class="btn btn-primary btn-lg mt-3">Copy</button>
+            <button type="button" id="copyBtn" class="btn btn-primary btn-lg mt-3" data-toggle="tooltip"
+              data-placement="top" title="Copy to clipboard">
+              Copy
+            </button>
           </div>
         </div>
       </div>

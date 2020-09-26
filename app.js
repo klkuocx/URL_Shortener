@@ -24,8 +24,10 @@ db.once('open', () => {
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
-// setting body-parser
+// Set middleware
+app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
+
 
 // Set route to home
 app.get('/', (req, res) => {
