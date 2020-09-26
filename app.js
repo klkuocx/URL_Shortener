@@ -27,11 +27,12 @@ app.set('view engine', 'hbs')
 // setting body-parser
 app.use(bodyParser.urlencoded({ extended: true }))
 
-// Set route
+// Set route to home
 app.get('/', (req, res) => {
   res.render('index')
 })
 
+// Set routes to shorten URL
 app.post('/shorten', (req, res) => {
   const { url } = req.body
   let code = generateCode()
@@ -46,6 +47,14 @@ app.post('/shorten', (req, res) => {
 app.get('/success', (req, res) => {
   const { code } = req.query
   res.render('success', { code })
+})
+
+// Set routes to redirect URL code
+app.get('/:code', (req, res) => {
+  const { code } = req.params
+  Url.findOne({ code })
+    .then(url => res.redirect(url.origin))
+    .catch(error => console.log(error))
 })
 
 // Listen to server
