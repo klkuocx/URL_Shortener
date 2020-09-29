@@ -5,7 +5,7 @@ function hasOriginAndReturn(origin, code, res) {
     .lean()
     .then((url) => {
       if (url) {
-        res.redirect(`/success?code=${url.code}`)
+        res.redirect(`/shorten/success?code=${url.code}`)
       } else {
         checkoutCodeAndCreate(origin, code, res)
       }
@@ -25,7 +25,7 @@ function checkoutCodeAndCreate(origin, code, res) {
     })
     .then(() => {
       Url.create({ origin, code })
-        .then(() => res.redirect(`/success?code=${code}`))
+        .then(() => res.redirect(`/shorten/success?code=${code}`))
         .catch(error => console.log(error))
     })
     .catch(error => console.log(error))
