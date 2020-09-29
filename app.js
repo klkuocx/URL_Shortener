@@ -5,6 +5,7 @@ const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 
 const generateCode = require('./generate_code')
+const hasOriginAndReturn = require('./checkoutUrl')
 const Url = require('./models/url')
 
 const app = express()
@@ -36,14 +37,9 @@ app.get('/', (req, res) => {
 
 // Set routes to shorten URL
 app.post('/shorten', (req, res) => {
-  const { url } = req.body
+  const { origin } = req.body
   let code = generateCode()
-  // while (Url.find({ code })) {
-  //   code = generateCode()
-  // }
-  Url.create({ origin: url, code })
-    .then(() => res.redirect(`/success?code=${code}`))
-    .catch(error => console.log(error))
+  hasOriginAndReturn(origin, code, res)
 })
 
 app.get('/success', (req, res) => {
