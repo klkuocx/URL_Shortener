@@ -2,14 +2,12 @@
 const express = require('express')
 const router = express.Router()
 
-const generateCode = require('../../generate_code')
 const hasOriginAndReturn = require('../../checkoutUrl')
 
 // Set routes to shorten URL
 router.post('/', (req, res) => {
   const { origin } = req.body
-  let code = generateCode()
-  hasOriginAndReturn(origin, code, res)
+  hasOriginAndReturn(origin, res)
 })
 
 router.get('/success', (req, res) => {
